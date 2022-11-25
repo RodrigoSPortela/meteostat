@@ -1,0 +1,8 @@
+# package directories
+**/gcp-key.json
+**/node_modules
+
+# Operating System Files
+.DS_Store
+.nyc_output
+.vscode
