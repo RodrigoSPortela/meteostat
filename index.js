@@ -6,11 +6,15 @@ exports.handler = async (req) => {
 
   try {
 
-    console.log('test here');
+    console.log('starting');
     const longlats_array = await pois();
-    console.log(longlats_array);
-    const rrr = IterationLocations(longlats_array);
+
+    console.log(`list of pois: `, longlats_array);
+    console.log("--------")
+    const rrr = await IterationLocations(longlats_array);
+    console.log("###");
     console.log(rrr);
+    console.log("###");
 
   }
   catch(err){

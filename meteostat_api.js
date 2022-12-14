@@ -2,10 +2,10 @@ const axios = require("axios");
 
 const httprequest = async (options) => {
 
-  await axios.request(options).then(function (response) {
+  return await axios.request(options).then(function (response) {
 
-    console.log(response.data);
-    return response.data
+    // console.log(response.data.meta);
+    return response.data.data[0].id
 
   }).catch(function (error) {
 
@@ -15,13 +15,18 @@ const httprequest = async (options) => {
 
 }
 
-const IterationLocations = (array_loc) => {
+const IterationLocations = async (array_loc) => {
+
+  let nearbyStations = [];
 
   for(const loc of array_loc) {
 
-    return NearbyWeatherStations(loc.lat, loc.long);
+    nearbyStations.push(await NearbyWeatherStations(loc.lat, loc.long));
 
   }
+  // console.log(`list of nearby stations: `, nearbyStations);
+
+  return nearbyStations
 
 }
 
