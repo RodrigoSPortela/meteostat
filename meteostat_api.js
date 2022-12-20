@@ -24,9 +24,11 @@ const IterationLocations = async (array_loc) => {
     nearbyStations.push(await NearbyWeatherStations(loc.lat, loc.long));
 
   }
-  // console.log(`list of nearby stations: `, nearbyStations);
 
-  return nearbyStations
+  // returning already deduped stations
+  const dedup = new Set(nearbyStations);
+
+  return [...dedup]
 
 }
 

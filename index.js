@@ -11,10 +11,11 @@ exports.handler = async (req) => {
 
     console.log(`list of pois: `, longlats_array);
     console.log("--------")
-    const rrr = await IterationLocations(longlats_array);
-    console.log("###");
-    console.log(rrr);
-    console.log("###");
+    const nearbyStations = await IterationLocations(longlats_array);
+
+    console.log("###___");
+    console.log(nearbyStations);
+    console.log("###___");
 
   }
   catch(err){
