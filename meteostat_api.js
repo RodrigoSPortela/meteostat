@@ -1,12 +1,22 @@
 const axios = require("axios");
+const { sleep } = require("./utils");
 
 const httprequest = async (options) => {
 
-  return await axios.request(options).then(function (response) {
+  return await axios.request(options).then(async function (response) {
 
-    // console.log(response.data.meta);
-    return response.data.data[0].id
+    await sleep(1000);
+    if(options.url === 'https://meteostat.p.rapidapi.com/stations/nearby') {
 
+      return response.data.data[0].id;
+
+    }
+    else{
+
+      return response.data.data;
+
+    }
+ 
   }).catch(function (error) {
 
     console.error(error);
@@ -48,6 +58,36 @@ const NearbyWeatherStations = (lat, lon) => {
 
 }
 
+const IterationStations = async (stationsId, startDate, endDate) => {
+
+  let result = [];
+
+  for(const station of stationsId) {
+
+    result.push(await WeatherData(station, startDate, endDate));
+
+  }
+
+  return result;
+
+
+}
+
+const WeatherData = (stationId, startDate, endDate) => {
+
+  const optionsWeatherData = {
+    method: 'GET',
+    url: 'https://meteostat.p.rapidapi.com/stations/daily',
+    params: {station: stationId, start: startDate, end: endDate},
+    headers: {
+      'X-RapidAPI-Key': 'a06d8fff63mshbf8455691f9e5fbp162a9fjsn0f44506367f4',
+      'X-RapidAPI-Host': 'meteostat.p.rapidapi.com'
+    }
+  };
+
+  return httprequest(optionsWeatherData);
+
+}
 // const options = {
 //   method: 'GET',
 //   url: 'https://meteostat.p.rapidapi.com/stations/daily',
@@ -65,6 +105,7 @@ const NearbyWeatherStations = (lat, lon) => {
 module.exports = {
 
   NearbyWeatherStations,
-  IterationLocations
+  IterationLocations,
+  IterationStations
 
 };

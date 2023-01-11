@@ -1,4 +1,4 @@
-const { IterationLocations } = require('./meteostat_api');
+const { IterationLocations, IterationStations } = require('./meteostat_api');
 const { pois } = require('./bigquery');
 
 
@@ -17,6 +17,11 @@ exports.handler = async (req) => {
     console.log(nearbyStations);
     console.log("###___");
 
+    const result = await IterationStations(nearbyStations, '2023-01-10', '2023-01-10')
+
+    console.log("###___###");
+    console.log(result);
+    console.log("###___###");
   }
   catch(err){
     console.log(err);
