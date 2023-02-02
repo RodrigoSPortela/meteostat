@@ -1,10 +1,15 @@
-const { IterationLocations, IterationStations } = require('./meteostat_api');
+// const { BigQuery } = require('@google-cloud/bigquery');
+
+const { IterationLocations, IterationStations, WeatherMetaData } = require('./meteostat_api');
 const { pois } = require('./bigquery');
+const moment = require('moment');
 
 
 exports.handler = async (req) => {
 
   try {
+
+    const previousDay = moment().utc().subtract(1, 'day').format("YYYY-MM-DD");
 
     console.log('starting');
     const longlats_array = await pois();
@@ -17,7 +22,7 @@ exports.handler = async (req) => {
     console.log(nearbyStations);
     console.log("###___");
 
-    const result = await IterationStations(nearbyStations, '2023-01-10', '2023-01-10')
+    const result = await IterationStations(nearbyStations, previousDay)
 
     console.log("###___###");
     console.log(result);

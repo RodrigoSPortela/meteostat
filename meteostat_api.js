@@ -58,13 +58,19 @@ const NearbyWeatherStations = (lat, lon) => {
 
 }
 
-const IterationStations = async (stationsId, startDate, endDate) => {
+const IterationStations = async (stationsId, dt) => {
 
   let result = [];
 
   for(const station of stationsId) {
 
-    result.push(await WeatherData(station, startDate, endDate));
+    const readings = await WeatherData(station, dt)
+    const metaStation = await WeatherMetaData(station);
+
+    const all = {...metaStation, ...readings[0]};
+
+    result.push(all);
+
 
   }
 
@@ -73,12 +79,12 @@ const IterationStations = async (stationsId, startDate, endDate) => {
 
 }
 
-const WeatherData = (stationId, startDate, endDate) => {
+const WeatherData = (stationId, dt) => {
 
   const optionsWeatherData = {
     method: 'GET',
     url: 'https://meteostat.p.rapidapi.com/stations/daily',
-    params: {station: stationId, start: startDate, end: endDate},
+    params: {station: stationId, start: dt, end: dt},
     headers: {
       'X-RapidAPI-Key': 'a06d8fff63mshbf8455691f9e5fbp162a9fjsn0f44506367f4',
       'X-RapidAPI-Host': 'meteostat.p.rapidapi.com'
@@ -88,6 +94,29 @@ const WeatherData = (stationId, startDate, endDate) => {
   return httprequest(optionsWeatherData);
 
 }
+
+const WeatherMetaData = async (stationId) => {
+
+  const optionsWeatherData = {
+    method: 'GET',
+    url: 'https://meteostat.p.rapidapi.com/stations/meta',
+    params: {id: stationId},
+    headers: {
+      'X-RapidAPI-Key': 'a06d8fff63mshbf8455691f9e5fbp162a9fjsn0f44506367f4',
+      'X-RapidAPI-Host': 'meteostat.p.rapidapi.com'
+    }
+  };
+
+  const { location } = await httprequest(optionsWeatherData);
+
+  return location
+
+}
+
+
+
+
+
 // const options = {
 //   method: 'GET',
 //   url: 'https://meteostat.p.rapidapi.com/stations/daily',

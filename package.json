@@ -4,11 +4,10 @@
   "description": "GCF to fecth data from meteostat API",
   "main": "./index.js",
   "dependencies": {
+    "@google-cloud/bigquery": "6.0.0",
     "axios": "^1.1.2",
-    "@google-cloud/bigquery": "6.0.0"
-    
+    "moment": "^2.29.4"
   },
   "author": "Rodrigo Portela, Arisa Yoshikawa",
   "license": "ISC"
 }
-
