@@ -1,7 +1,7 @@
 // const { BigQuery } = require('@google-cloud/bigquery');
 
 const { IterationLocations, IterationStations, WeatherMetaData } = require('./meteostat_api');
-const { pois } = require('./bigquery');
+const { pois, bqIngestion } = require('./bigquery');
 const moment = require('moment');
 
 
@@ -18,15 +18,18 @@ exports.handler = async (req) => {
     console.log("--------")
     const nearbyStations = await IterationLocations(longlats_array);
 
-    console.log("###___");
+    console.log("nearbyStations___");
     console.log(nearbyStations);
-    console.log("###___");
 
     const result = await IterationStations(nearbyStations, previousDay)
 
-    console.log("###___###");
+    console.log("result___");    
     console.log(result);
-    console.log("###___###");
+
+    console.log("ingeting on bq");
+    await bqIngestion(result);
+    
+
   }
   catch(err){
     console.log(err);

@@ -40,8 +40,29 @@ async function pois() {
 
 }
 
+const bqIngestion = async (payload) => {
+
+  try{
+
+    await bigquery
+    .dataset('dev_arisa')
+    .table('meteostat')
+    .insert(payload);
+
+  }
+  catch(err){
+
+    console.log(JSON.stringify(err));
+    throw new Error(`BQ could not ingest data because of error: ${err}`);
+
+  }
+
+}
+
+
 module.exports = {
 
-  pois
+  pois,
+  bqIngestion
 
 };
