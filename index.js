@@ -1,13 +1,16 @@
 // const { BigQuery } = require('@google-cloud/bigquery');
-
+require('dotenv').config();
 const { IterationLocations, IterationStations, WeatherMetaData } = require('./meteostat_api');
 const { pois, bqIngestion } = require('./bigquery');
 const moment = require('moment');
 
 
+
 exports.handler = async (req) => {
 
   try {
+
+    console.log(process.env);
 
     const previousDay = moment().utc().subtract(1, 'day').format("YYYY-MM-DD");
 
@@ -33,6 +36,7 @@ exports.handler = async (req) => {
   }
   catch(err){
     console.log(err);
+    throw Error(err);
   }
 
 }

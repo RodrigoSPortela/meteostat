@@ -9,8 +9,9 @@ const index = require('../index');
     functionName: 'meteostat_function'
 
   };
+  const req = 'Arisaaaaaaa!!'
 
-  await index.handler(context);
+  await index.handler(req, context);
 
 })();
 

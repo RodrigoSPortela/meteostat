@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "GCF to fecth data from meteostat API",
   "main": "./index.js",
+  "scripts": {
+    "deploy-stage": "gcloud functions deploy meteostat --trigger-http --entry-point=handler --runtime nodejs18 --project semios-bq-stage --env-vars-file .env --service-account=meteostat@semios-bq-stage.iam.gserviceaccount.com --allow-unauthenticated"
+  },
   "dependencies": {
     "@google-cloud/bigquery": "6.0.0",
     "axios": "^1.1.2",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "dotenv": "^16.0.3"
   },
   "author": "Rodrigo Portela, Arisa Yoshikawa",
   "license": "ISC"

@@ -6,6 +6,9 @@ const keyFile = path.resolve(__dirname, 'gcp-key.json')
 const bigquery = new BigQuery({ projectId: 'semios-bq-stage', keyFile });
 
 
+
+const datasetDestination = 'dev_arisa';
+
 async function pois() {
 
   const query = `
@@ -45,7 +48,7 @@ const bqIngestion = async (payload) => {
   try{
 
     await bigquery
-    .dataset('dev_arisa')
+    .dataset(datasetDestination)
     .table('meteostat')
     .insert(payload);
 
